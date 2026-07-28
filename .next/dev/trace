@@ -37,3 +37,4 @@
 [{"name":"turbopack-compaction","duration":123000,"timestamp":7988633568045,"id":82,"parentId":3,"tags":{},"startTime":1785253873741,"traceId":"6037866806a26fb1"}]
 [{"name":"turbopack-persistence","duration":25000,"timestamp":7989772053645,"id":84,"parentId":3,"tags":{"reason":"idle timeout","snapshot_duration_ms":0.258166,"persist_duration_ms":25.351875,"task_count":109},"startTime":1785255012128,"traceId":"6037866806a26fb1"}]
 [{"name":"turbopack-persistence","duration":29000,"timestamp":7993494084909,"id":86,"parentId":3,"tags":{"reason":"idle timeout","snapshot_duration_ms":0.378084,"persist_duration_ms":28.297542,"task_count":94},"startTime":1785258734144,"traceId":"6037866806a26fb1"}]
+[{"name":"turbopack-persistence","duration":172000,"timestamp":7994396439774,"id":88,"parentId":3,"tags":{"reason":"idle timeout","snapshot_duration_ms":0.844333,"persist_duration_ms":171.415792,"task_count":1024},"startTime":1785259636641,"traceId":"6037866806a26fb1"}]
