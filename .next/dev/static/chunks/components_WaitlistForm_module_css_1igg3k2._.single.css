@@ -1,0 +1,137 @@
+/* [project]/components/WaitlistForm.module.css [app-client] (css) */
+.WaitlistForm-module__hjIlRq__form {
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+}
+
+.WaitlistForm-module__hjIlRq__inputRow {
+  gap: 8px;
+  width: 100%;
+  display: flex;
+}
+
+.WaitlistForm-module__hjIlRq__input {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  height: 46px;
+  color: var(--text);
+  outline: none;
+  flex: 1;
+  padding: 0 16px;
+  font-size: 15px;
+  transition: border-color .2s;
+}
+
+.WaitlistForm-module__hjIlRq__input::placeholder {
+  color: var(--text-3);
+}
+
+.WaitlistForm-module__hjIlRq__input:focus {
+  border-color: var(--accent-border);
+  background: var(--bg-2);
+}
+
+.WaitlistForm-module__hjIlRq__button {
+  background: var(--accent);
+  color: #0a0a0a;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  min-width: 130px;
+  height: 46px;
+  padding: 0 22px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity .2s, transform .15s;
+  display: flex;
+}
+
+.WaitlistForm-module__hjIlRq__button:hover {
+  opacity: .88;
+}
+
+.WaitlistForm-module__hjIlRq__button:active {
+  transform: scale(.97);
+}
+
+.WaitlistForm-module__hjIlRq__button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.WaitlistForm-module__hjIlRq__hint {
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+.WaitlistForm-module__hjIlRq__successBox {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-md);
+  align-items: center;
+  gap: 14px;
+  max-width: 460px;
+  padding: 14px 18px;
+  display: flex;
+}
+
+.WaitlistForm-module__hjIlRq__successIcon {
+  background: var(--accent);
+  color: #0a0a0a;
+  border-radius: 50%;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+}
+
+.WaitlistForm-module__hjIlRq__successTitle {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.WaitlistForm-module__hjIlRq__successSub {
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+@keyframes WaitlistForm-module__hjIlRq__spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.WaitlistForm-module__hjIlRq__spinner {
+  border: 2px solid #0003;
+  border-top-color: #0a0a0a;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: .7s linear infinite WaitlistForm-module__hjIlRq__spin;
+  display: inline-block;
+}
+
+@media (max-width: 480px) {
+  .WaitlistForm-module__hjIlRq__inputRow {
+    flex-direction: column;
+  }
+
+  .WaitlistForm-module__hjIlRq__button {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=components_WaitlistForm_module_css_1igg3k2._.single.css.map*/

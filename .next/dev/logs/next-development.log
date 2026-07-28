@@ -1,0 +1,4 @@
+{"timestamp":"00:00:00.291","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:44.567","source":"Server","level":"WARN","message":"@supabase/supabase-js: Unrecognized Supabase API key format. The client will proceed and send this key as-is; if you see authentication errors you may need to upgrade @supabase/supabase-js to a version that recognizes this key type."}
+{"timestamp":"00:00:50.207","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"116:45:12.571","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
