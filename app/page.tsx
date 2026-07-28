@@ -224,7 +224,7 @@ export default async function Home() {
           Applymatic
         </div>
         <p className={styles.footerNote}>
-          Questions? <a href="mailto:hello@applymatic.com">hello@applymatic.com</a>
+          Questions? <a href="mailto:jporteur@gmail.com">jporteur@gmail.com</a>
         </p>
       </footer>
 
