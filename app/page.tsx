@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase'
 import WaitlistForm from '@/components/WaitlistForm'
 import styles from './page.module.css'
 
+export const revalidate = 0
+
 // Fetch live waitlist count from Supabase at request time (server component)
 async function getWaitlistCount(): Promise<number> {
   const { count, error } = await supabase
