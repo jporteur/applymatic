@@ -83,15 +83,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../../app/generate-cover-letter/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/generate-cover-letter">> = Specific
-  const handler = {} as typeof import("../../../app/generate-cover-letter/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 
 
 
