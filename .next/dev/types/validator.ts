@@ -47,6 +47,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 }
 
 
+// Validate ../../../app/demo/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/demo">> = Specific
+  const handler = {} as typeof import("../../../app/demo/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/">> = Specific
@@ -56,10 +65,28 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/generate-cover-letter/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/generate-cover-letter">> = Specific
+  const handler = {} as typeof import("../../../app/api/generate-cover-letter/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/waitlist/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/waitlist">> = Specific
   const handler = {} as typeof import("../../../app/api/waitlist/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/generate-cover-letter/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/generate-cover-letter">> = Specific
+  const handler = {} as typeof import("../../../app/generate-cover-letter/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

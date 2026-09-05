@@ -1,0 +1,3 @@
+{
+  "/api/generate-cover-letter/route": "app/api/generate-cover-letter/route.js"
+}

@@ -169,6 +169,8 @@
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --blue: #5c9eff;
+  --bg-4: #222;
 }
 
 html {
