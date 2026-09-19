@@ -220,15 +220,12 @@ function DemoPage() {
                 })
             });
             const data = await res.json();
-            console.log('API response:', data);
             if (data.reasoning && data.coverLetter) {
                 setGenerated((prev)=>({
                         ...prev,
                         [id]: data
                     }));
-            } else {
-                console.log('Missing data - reasoning:', data.reasoning, 'coverLetter:', data.coverLetter);
-            }
+            } else {}
         } catch (e) {
             console.error(e);
         } finally{
