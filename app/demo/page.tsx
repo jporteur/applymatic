@@ -6,398 +6,330 @@ import styles from './demo.module.css'
 const JOBS = [
   {
     id: 0,
-    title: 'Senior Software Engineer',
+    title: 'Senior Frontend Engineer',
     company: 'Stripe',
-    location: 'Remote',
-    salary: '$160k–$200k',
-    posted: '2 hours ago',
-    score: 92,
-    logo: 'ST',
-    logoColor: '#635bff',
-    logoBg: '#0f0e2e',
-    tags: ['React', 'TypeScript', 'Node.js', 'Payments'],
-    description: 'Build and maintain core payment infrastructure used by millions of businesses. Work with React, TypeScript, and Node.js in a highly collaborative engineering culture. 5+ years experience required.',
+    location: 'San Francisco, CA',
+    salary: '$180,000 – $220,000',
+    score: 94,
+    tags: ['React', 'TypeScript', 'Payments'],
+    jobDescription: `We're looking for a Senior Frontend Engineer to join Stripe's payments team. You'll build the interfaces that millions of businesses use to accept payments globally.
+
+Responsibilities:
+- Lead frontend architecture decisions for our payments dashboard
+- Build performant, accessible React components used by 500k+ merchants
+- Collaborate with design and backend teams to ship new payment features
+- Mentor junior engineers and contribute to engineering culture
+
+Requirements:
+- 5+ years of frontend engineering experience
+- Expert-level React and TypeScript
+- Experience with payments, fintech, or high-stakes UIs
+- Strong opinions about code quality and testing`,
   },
   {
     id: 1,
-    title: 'Full Stack Engineer',
+    title: 'Staff Software Engineer',
     company: 'Linear',
     location: 'Remote',
-    salary: '$140k–$180k',
-    posted: '5 hours ago',
+    salary: '$200,000 – $250,000',
     score: 88,
-    logo: 'LN',
-    logoColor: '#5e6ad2',
-    logoBg: '#0d0d1a',
-    tags: ['React', 'GraphQL', 'PostgreSQL', 'TypeScript'],
-    description: 'Join a small, high-output team building the best issue tracker in the world. You\'ll own features end-to-end, from database schema to UI. Strong TypeScript and React skills required.',
+    tags: ['Full-Stack', 'Product', 'Tools'],
+    jobDescription: `Linear is building the next generation of project management software. We're looking for a Staff Engineer who cares deeply about developer experience and product quality.
+
+Responsibilities:
+- Own large technical initiatives from design through delivery
+- Improve Linear's core data model and sync engine
+- Drive architectural decisions that affect the whole engineering org
+- Work closely with founders on product direction
+
+Requirements:
+- 8+ years of software engineering
+- Strong full-stack background (React, Node, PostgreSQL)
+- Experience building real-time collaborative software
+- High bar for product quality and UX`,
   },
   {
     id: 2,
-    title: 'Software Engineer, Platform',
+    title: 'Senior Software Engineer, Platform',
     company: 'Vercel',
     location: 'Remote',
-    salary: '$150k–$190k',
-    posted: '1 day ago',
-    score: 85,
-    logo: 'VC',
-    logoColor: '#ffffff',
-    logoBg: '#111111',
-    tags: ['Node.js', 'AWS', 'TypeScript', 'Infrastructure'],
-    description: 'Work on the platform that powers millions of deployments per day. You\'ll build and scale infrastructure, improve developer experience, and work closely with product teams. Experience with cloud infrastructure required.',
+    salary: '$175,000 – $210,000',
+    score: 79,
+    tags: ['Infrastructure', 'Node.js', 'Edge'],
+    jobDescription: `Vercel is the platform for frontend developers. We're looking for engineers to build the infrastructure that powers millions of websites.
+
+Responsibilities:
+- Build and scale edge infrastructure serving billions of requests
+- Improve deploy pipelines and developer workflows
+- Work on Node.js runtime and serverless function execution
+- Partner with open source communities (Next.js, etc.)
+
+Requirements:
+- 4+ years of backend/infrastructure engineering
+- Deep Node.js and JavaScript expertise
+- Experience with cloud platforms (AWS, GCP, or Azure)
+- Interest in developer tooling and DX`,
   },
   {
     id: 3,
-    title: 'Frontend Engineer',
+    title: 'Product Engineer',
     company: 'Notion',
-    location: 'Hybrid NYC',
-    salary: '$145k–$185k',
-    posted: '2 days ago',
-    score: 79,
-    logo: 'NT',
-    logoColor: '#ffffff',
-    logoBg: '#191919',
-    tags: ['React', 'TypeScript', 'Performance', 'Design Systems'],
-    description: 'Build rich, collaborative document experiences used by millions of people. Deep React and TypeScript expertise required. Experience with complex UI state management and performance optimization a plus.',
+    location: 'New York, NY',
+    salary: '$160,000 – $195,000',
+    score: 71,
+    tags: ['React', 'Product', 'Collaboration'],
+    jobDescription: `Notion is building a connected workspace for teams. We're looking for Product Engineers who can blur the line between engineering and product.
+
+Responsibilities:
+- Build new Notion features end-to-end, from DB schema to UI
+- Collaborate directly with product and design without heavy process
+- Improve editor performance and real-time collaboration
+- Contribute to Notion's design system
+
+Requirements:
+- 3+ years of product-focused engineering
+- Strong React skills, ideally with complex editor/content experiences
+- Ability to prototype quickly and iterate based on feedback
+- Care about craft and product details`,
   },
 ]
 
-type JobState = 'pending' | 'approved' | 'skipped'
-type GeneratedContent = { reasoning: string; coverLetter: string }
+const CRITERIA_TAGS = ['Remote', '$140k–$200k', 'React / TS', 'Node.js', 'AWS', 'PostgreSQL']
+
+const NAV_ITEMS = [
+  { icon: '⚡', label: "Today's Matches", count: 4, active: true },
+  { icon: '📋', label: 'Applications', count: null, active: false },
+  { icon: '⚙️', label: 'Criteria', count: null, active: false },
+]
+
+function ScoreRing({ score }: { score: number }) {
+  const color = score >= 90 ? '#4ade80' : score >= 75 ? '#5c9eff' : '#f59e0b'
+  return (
+    <div className={styles.scoreRing} style={{ '--score-color': color } as React.CSSProperties}>
+      <span className={styles.scoreNumber} style={{ color }}>{score}</span>
+      <span className={styles.scoreLabel}>match</span>
+    </div>
+  )
+}
 
 export default function DemoPage() {
-  const [selected, setSelected] = useState<number>(0)
-  const [jobStates, setJobStates] = useState<Record<number, JobState>>({ 0: 'pending', 1: 'pending', 2: 'pending', 3: 'pending' })
-  const [generated, setGenerated] = useState<Record<number, GeneratedContent>>({})
+  const [selectedJob, setSelectedJob] = useState(0)
+  const [reasoning, setReasoning] = useState('')
+  const [coverLetter, setCoverLetter] = useState('')
   const [loading, setLoading] = useState(false)
-  const [applied, setApplied] = useState<number[]>([])
-  const [toast, setToast] = useState<{ msg: string; icon: string } | null>(null)
-  const [view, setView] = useState<'matches' | 'tracker' | 'criteria'>('matches')
-  const [copied, setCopied] = useState(false)
-  useEffect(() => {
-  generateContent(0)
-}, [])
+  const [actionTaken, setActionTaken] = useState<Record<number, 'approved' | 'skipped'>>({})
+  const [mobileView, setMobileView] = useState<'list' | 'detail'>('list')
 
-  const job = JOBS[selected]
-  const state = jobStates[selected]
-  const content = generated[selected]
-
-  async function selectJob(id: number) {
-    setSelected(id)
-    if (!generated[id]) await generateContent(id)
-  }
-
-  async function generateContent(id: number) {
-    const j = JOBS[id]
+  async function generateContent(jobId: number) {
+    const job = JOBS[jobId]
     setLoading(true)
+    setReasoning('')
+    setCoverLetter('')
     try {
       const res = await fetch('/api/generate-cover-letter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          jobTitle: j.title,
-          company: j.company,
-          location: j.location,
-          salary: j.salary,
-          jobDescription: j.description,
+          jobTitle: job.title,
+          company: job.company,
+          location: job.location,
+          salary: job.salary,
+          jobDescription: job.jobDescription,
         }),
       })
       const data = await res.json()
-
-if (data.reasoning && data.coverLetter) {
-  setGenerated(prev => ({ ...prev, [id]: data }))
-} else {
-  
-}
-    } catch (e) {
-      console.error(e)
+      setReasoning(data.reasoning || '')
+      setCoverLetter(data.coverLetter || '')
+    } catch {
+      setReasoning('Unable to generate analysis.')
+      setCoverLetter('')
     } finally {
       setLoading(false)
     }
   }
 
-  function approveJob() {
-    setJobStates(prev => ({ ...prev, [selected]: 'approved' }))
-    setApplied(prev => [...prev.filter(i => i !== selected), selected])
-    showToast('✓', `Application submitted to ${job.company}!`)
-    const next = JOBS.find(j => j.id !== selected && jobStates[j.id] === 'pending')
-    if (next) setTimeout(() => selectJob(next.id), 800)
+  useEffect(() => {
+    generateContent(0)
+  }, [])
+
+  function selectJob(id: number) {
+    setSelectedJob(id)
+    generateContent(id)
+    setMobileView('detail')
   }
 
-  function skipJob() {
-    setJobStates(prev => ({ ...prev, [selected]: 'skipped' }))
-    showToast('✕', 'Role skipped')
-    const next = JOBS.find(j => j.id !== selected && jobStates[j.id] === 'pending')
-    if (next) setTimeout(() => selectJob(next.id), 500)
+  function handleAction(action: 'approved' | 'skipped') {
+    setActionTaken(prev => ({ ...prev, [selectedJob]: action }))
   }
 
-  function copyLetter() {
-    if (!content?.coverLetter) return
-    navigator.clipboard.writeText(content.coverLetter)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-    showToast('📋', 'Cover letter copied!')
-  }
+  const job = JOBS[selectedJob]
 
-  function showToast(icon: string, msg: string) {
-    setToast({ icon, msg })
-    setTimeout(() => setToast(null), 2800)
-  }
+  const jobListPanel = (
+    <div className={styles.jobList}>
+      {/* Persona */}
+      <div className={styles.persona}>
+        <div className={styles.personaAvatar}>JU</div>
+        <div className={styles.personaInfo}>
+          <div className={styles.personaName}>John Utah</div>
+          <div className={styles.personaTitle}>Software Engineer · 5 yrs exp</div>
+        </div>
+        <div className={styles.personaBadge}>Demo</div>
+      </div>
 
-  const scoreColor = (s: number) => s >= 85 ? 'var(--accent)' : 'var(--blue)'
-  const pendingCount = Object.values(jobStates).filter(s => s === 'pending').length
+      {/* Stats row */}
+      <div className={styles.statsRow}>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Resume</span>
+          <span className={styles.statValue}>Uploaded ✓</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Applied</span>
+          <span className={styles.statValue}>0 roles</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>Pending</span>
+          <span className={styles.statValue}>4 matches</span>
+        </div>
+      </div>
 
-  const scoreBars = [
-    { label: 'Role alignment', val: Math.min(job.score + 3, 100) },
-    { label: 'Salary match',   val: Math.min(job.score - 2, 100) },
-    { label: 'Skill overlap',  val: Math.min(job.score - 5, 100) },
-    { label: 'Location fit',   val: job.location === 'Remote' ? 100 : 72 },
-    { label: 'Seniority',      val: Math.min(job.score + 1, 100) },
-  ]
+      {/* Nav */}
+      <div className={styles.navSection}>
+        <div className={styles.navLabel}>Navigation</div>
+        {NAV_ITEMS.map(item => (
+          <div key={item.label} className={`${styles.navItem} ${item.active ? styles.navItemActive : ''}`}>
+            <span className={styles.navIcon}>{item.icon}</span>
+            <span className={styles.navItemLabel}>{item.label}</span>
+            {item.count && <span className={styles.navCount}>{item.count}</span>}
+          </div>
+        ))}
+      </div>
+
+      {/* Criteria */}
+      <div className={styles.criteriaSection}>
+        <div className={styles.navLabel}>Your Criteria</div>
+        <div className={styles.criteriaTagsWrap}>
+          {CRITERIA_TAGS.map(tag => (
+            <span key={tag} className={styles.criteriaTag}>{tag}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Match count */}
+      <div className={styles.matchCount}>4 matches found</div>
+
+      {/* Job cards */}
+      {JOBS.map(j => (
+        <div
+          key={j.id}
+          className={`${styles.jobCard} ${selectedJob === j.id ? styles.jobCardActive : ''} ${actionTaken[j.id] ? styles.jobCardActioned : ''}`}
+          onClick={() => selectJob(j.id)}
+        >
+          <div className={styles.jobCardTop}>
+            <div className={styles.jobCardInfo}>
+              <div className={styles.jobCardTitle}>{j.title}</div>
+              <div className={styles.jobCardCompany}>{j.company}</div>
+              <div className={styles.jobCardLocation}>{j.location}</div>
+            </div>
+            <ScoreRing score={j.score} />
+          </div>
+          <div className={styles.jobCardTags}>
+            {j.tags.map(tag => (
+              <span key={tag} className={styles.tag}>{tag}</span>
+            ))}
+          </div>
+          {actionTaken[j.id] && (
+            <div className={`${styles.actionedBadge} ${actionTaken[j.id] === 'approved' ? styles.actionedApproved : styles.actionedSkipped}`}>
+              {actionTaken[j.id] === 'approved' ? '✓ Approved' : '✗ Skipped'}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+
+  const detailPanel = (
+    <div className={styles.detailPanel}>
+      <div className={styles.detailHeader}>
+        <button className={styles.backButton} onClick={() => setMobileView('list')}>
+          ← Back
+        </button>
+        <div className={styles.detailHeaderInfo}>
+          <h2 className={styles.detailTitle}>{job.title}</h2>
+          <div className={styles.detailMeta}>
+            <span>{job.company}</span>
+            <span className={styles.dot}>·</span>
+            <span>{job.location}</span>
+            <span className={styles.dot}>·</span>
+            <span>{job.salary}</span>
+          </div>
+        </div>
+        <ScoreRing score={job.score} />
+      </div>
+
+      <div className={styles.detailBody} style={{ overflowY: 'scroll', flex: 1, minHeight: 0 }}>
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>
+            <span className={styles.aiIcon}>✦</span> AI Analysis
+          </h3>
+          {loading ? (
+            <div className={styles.loadingPulse}>
+              <div className={styles.loadingLine} />
+              <div className={styles.loadingLine} style={{ width: '80%' }} />
+              <div className={styles.loadingLine} style={{ width: '60%' }} />
+            </div>
+          ) : (
+            <p className={styles.reasoning}>{reasoning}</p>
+          )}
+        </section>
+
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>Cover Letter</h3>
+          {loading ? (
+            <div className={styles.loadingPulse}>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className={styles.loadingLine} style={{ width: `${85 + Math.random() * 15}%` }} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.letterBox} style={{ flexShrink: 0 }}>
+              <pre className={styles.letterText}>{coverLetter}</pre>
+            </div>
+          )}
+        </section>
+
+        <div className={styles.actionBar}>
+          {actionTaken[selectedJob] ? (
+            <div className={`${styles.actionConfirm} ${actionTaken[selectedJob] === 'approved' ? styles.actionConfirmApprove : styles.actionConfirmSkip}`}>
+              {actionTaken[selectedJob] === 'approved' ? '✓ Application queued for submission' : '✗ Job skipped'}
+            </div>
+          ) : (
+            <>
+              <button className={styles.btnSkip} onClick={() => handleAction('skipped')}>Skip</button>
+              <button className={styles.btnApprove} onClick={() => handleAction('approved')}>Approve & Submit</button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 
   return (
-    <div className={styles.shell}>
-
-      <div className={styles.banner}>
-        ✦ Interactive beta demo &mdash;{' '}
-        <a href="https://applymatic-gamma.vercel.app">join the waitlist</a> for early access
+    <div className={styles.page}>
+      <div className={styles.topBar}>
+        <div className={styles.logo}>Applymatic</div>
+        <div className={styles.demoTag}>Live Demo</div>
       </div>
 
-      <header className={styles.topbar}>
-        <div className={styles.logo}>
-          <span className={styles.logoMark} />
-          Applymatic
-          <span className={styles.betaBadge}>Beta</span>
-        </div>
-        <div className={styles.topbarRight}>
-          <span className={styles.userName}>John U.</span>
-          <div className={styles.avatar}>JU</div>
-        </div>
-      </header>
-
-      <div className={styles.app}>
-
-        {/* SIDEBAR */}
-        <aside className={styles.sidebar}>
-          <div className={styles.profileCard}>
-            <div>
-              <div className={styles.profileName}>John Utah</div>
-              <div className={styles.profileRole}>Software Engineer · 5 yrs exp</div>
-            </div>
-            <div className={styles.profileStat}><span>Resume</span><span>Uploaded ✓</span></div>
-            <div className={styles.profileStat}><span>Applied</span><span>{applied.length} role{applied.length !== 1 ? 's' : ''}</span></div>
-            <div className={styles.profileStat}><span>Pending</span><span>{pendingCount} matches</span></div>
-          </div>
-
-          <div className={styles.sideSection}>
-            <div className={styles.sideLabel}>Navigation</div>
-            <div className={`${styles.navItem} ${view === 'matches' ? styles.navActive : ''}`} onClick={() => setView('matches')}>
-              <span>⚡</span> Today&apos;s Matches
-              {pendingCount > 0 && <span className={styles.navCount}>{pendingCount}</span>}
-            </div>
-            <div className={`${styles.navItem} ${view === 'tracker' ? styles.navActive : ''}`} onClick={() => setView('tracker')}>
-              <span>📋</span> Applications
-            </div>
-            <div className={`${styles.navItem} ${view === 'criteria' ? styles.navActive : ''}`} onClick={() => setView('criteria')}>
-              <span>⚙️</span> Criteria
-            </div>
-          </div>
-
-          <div className={styles.sideSection}>
-            <div className={styles.sideLabel}>Your Criteria</div>
-            <div className={styles.tags}>
-              {['🌐 Remote', '💰 $140k–$200k', '⚛️ React / TS', '🟢 Node.js', '☁️ AWS', '🗄️ PostgreSQL'].map(t => (
-                <span key={t} className={styles.tag}>{t}</span>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* MAIN FEED */}
-        <main className={styles.main}>
-          {view === 'matches' && (
-            <>
-              <div className={styles.feedHeader}>
-                <div className={styles.feedTitle}>Today&apos;s Matches</div>
-                <div className={styles.feedSub}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} · {JOBS.length} roles found</div>
-              </div>
-              {JOBS.map(j => (
-                <div
-                  key={j.id}
-                  className={`${styles.jobCard} ${selected === j.id ? styles.jobSelected : ''} ${jobStates[j.id] === 'approved' ? styles.jobApproved : ''} ${jobStates[j.id] === 'skipped' ? styles.jobSkipped : ''}`}
-                  onClick={() => selectJob(j.id)}
-                >
-                  <div className={styles.jobTop}>
-                    <div className={styles.jobLogo} style={{ background: j.logoBg, color: j.logoColor }}>{j.logo}</div>
-                    <div className={styles.jobInfo}>
-                      <div className={styles.jobTitle}>{j.title}</div>
-                      <div className={styles.jobCompany}>{j.company}</div>
-                    </div>
-                    <div className={styles.scoreBadge} style={{ color: scoreColor(j.score), background: j.score >= 85 ? 'rgba(200,240,74,0.1)' : 'rgba(92,158,255,0.1)', border: `1px solid ${j.score >= 85 ? 'rgba(200,240,74,0.28)' : 'rgba(92,158,255,0.28)'}` }}>
-                      {j.score}
-                    </div>
-                  </div>
-                  <div className={styles.jobMeta}>
-                    <span>💰 {j.salary}</span>
-                    <span>📍 {j.location}</span>
-                    <span>⏱ {j.posted}</span>
-                  </div>
-                  <div className={styles.jobTags}>
-                    {j.tags.map(t => <span key={t} className={styles.jobTag}>{t}</span>)}
-                  </div>
-                  {jobStates[j.id] === 'approved' && <span className={`${styles.statusPill} ${styles.statusApproved}`}>Applied ✓</span>}
-                  {jobStates[j.id] === 'skipped' && <span className={`${styles.statusPill} ${styles.statusSkipped}`}>Skipped</span>}
-                </div>
-              ))}
-            </>
-          )}
-
-          {view === 'tracker' && (
-            <>
-              <div className={styles.feedHeader}>
-                <div className={styles.feedTitle}>Applications</div>
-                <div className={styles.feedSub}>Track everything you&apos;ve applied to</div>
-              </div>
-              {applied.length === 0 ? (
-                <div className={styles.empty}>No applications yet — approve a job to get started.</div>
-              ) : applied.map(id => {
-                const j = JOBS[id]
-                return (
-                  <div key={id} className={styles.trackerCard}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div className={styles.jobLogo} style={{ background: j.logoBg, color: j.logoColor, width: 32, height: 32, fontSize: 12, borderRadius: 7 }}>{j.logo}</div>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 600 }}>{j.title}</div>
-                        <div style={{ fontSize: 12, color: 'var(--text-3)' }}>{j.company} · Submitted today</div>
-                      </div>
-                    </div>
-                    <span className={styles.statusSubmitted}>Submitted</span>
-                  </div>
-                )
-              })}
-            </>
-          )}
-
-          {view === 'criteria' && (
-            <>
-              <div className={styles.feedHeader}>
-                <div className={styles.feedTitle}>Your Criteria</div>
-                <div className={styles.feedSub}>Applymatic uses these to score and filter roles daily</div>
-              </div>
-              <div className={styles.criteriaCard}>
-                {[
-                  ['Target Roles', 'Software Engineer, Full Stack Engineer, Frontend Engineer, Backend Engineer'],
-                  ['Salary Range', '$140,000 – $200,000'],
-                  ['Location', 'Remote preferred · Open to hybrid'],
-                  ['Key Skills', 'React, TypeScript, Node.js, PostgreSQL, AWS, REST APIs'],
-                  ['Minimum Score', '70 · Roles below this are filtered out automatically'],
-                ].map(([label, val]) => (
-                  <div key={label} className={styles.criteriaRow}>
-                    <div className={styles.criteriaLabel}>{label}</div>
-                    <div className={styles.criteriaVal}>{val}</div>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </main>
-
-        {/* DETAIL PANEL — scrolls naturally as one tall column */}
-        {view === 'matches' && (
-          <aside className={styles.detail}>
-
-            {/* Sticky job header */}
-            <div className={styles.detailHeader}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div className={styles.jobLogo} style={{ background: job.logoBg, color: job.logoColor, width: 44, height: 44, fontSize: 16, borderRadius: 10 }}>{job.logo}</div>
-                <div>
-                  <div className={styles.detailTitle}>{job.title}</div>
-                  <div className={styles.detailCompany}>{job.company}</div>
-                </div>
-              </div>
-              <div className={styles.detailMeta}>
-                <span>💰 {job.salary}</span>
-                <span>📍 {job.location}</span>
-                <span>⏱ {job.posted}</span>
-              </div>
-            </div>
-
-            {/* Scrollable body */}
-            <div className={styles.detailBody} style={{ minHeight: 0, flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
-
-              <div className={styles.scoreBox}>
-                <div className={styles.scoreBoxTop}>
-                  <div className={styles.scoreBoxLabel}>AI Fit Score</div>
-                  <div className={styles.scoreNum} style={{ color: scoreColor(job.score) }}>{job.score}</div>
-                </div>
-                {loading ? (
-                  <div className={styles.loadingReasoning}>
-                    <div className={styles.spinner} />
-                    <span>Claude is analyzing this role...</span>
-                  </div>
-                ) : content?.reasoning ? (
-                  <div className={styles.reasoning}>{content.reasoning}</div>
-                ) : (
-                  <div className={styles.reasoning} style={{ color: 'var(--text-3)', fontStyle: 'italic' }}>Loading AI analysis...</div>
-                )}
-                <div className={styles.scoreBars}>
-                  {scoreBars.map(b => (
-                    <div key={b.label} className={styles.scoreBarRow}>
-                      <span className={styles.scoreBarLabel}>{b.label}</span>
-                      <div className={styles.scoreBarWrap}>
-                        <div className={styles.scoreBarFill} style={{ width: `${b.val}%`, background: b.val >= 85 ? 'var(--accent)' : 'var(--blue)' }} />
-                      </div>
-                      <span className={styles.scoreBarVal}>{b.val}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className={styles.letterBox} style={{ flexShrink: 0 }}>
-                <div className={styles.letterHeader}>
-                  <span className={styles.letterLabel}>Tailored Cover Letter</span>
-                  <button className={styles.copyBtn} onClick={copyLetter} disabled={!content?.coverLetter || loading}>
-                    {copied ? 'Copied!' : 'Copy'}
-                  </button>
-                </div>
-                <div className={styles.letterBody}>
-                  {loading ? (
-                    <div className={styles.loadingLetter}>
-                      <div className={styles.spinner} />
-                      <span>Writing your cover letter...</span>
-                    </div>
-                  ) : content?.coverLetter ? (
-                    <pre className={styles.letterText}>{content.coverLetter}</pre>
-                  ) : (
-                    <span style={{ color: 'var(--text-3)', fontStyle: 'italic' }}>Generating cover letter...</span>
-                  )}
-                </div>
-              </div>
-
-            </div>
-
-            {/* Sticky action buttons */}
-            <div className={styles.actions}>
-              <button className={`${styles.btn} ${styles.btnSkip}`} onClick={skipJob} disabled={state !== 'pending' || loading}>
-                {state === 'skipped' ? '✕ Skipped' : '✕ Skip'}
-              </button>
-              <button className={`${styles.btn} ${styles.btnApprove}`} onClick={approveJob} disabled={state !== 'pending' || loading}>
-                {state === 'approved' ? '✓ Applied' : '✓ Approve & Apply'}
-              </button>
-            </div>
-
-          </aside>
-        )}
-
+      {/* Desktop */}
+      <div className={styles.layout}>
+        {jobListPanel}
+        {detailPanel}
       </div>
 
-      {toast && (
-        <div className={styles.toast}>
-          <span>{toast.icon}</span>
-          <span>{toast.msg}</span>
-        </div>
-      )}
-
+      {/* Mobile */}
+      <div className={styles.mobileLayout}>
+        {mobileView === 'list' ? jobListPanel : detailPanel}
+      </div>
     </div>
   )
 }
