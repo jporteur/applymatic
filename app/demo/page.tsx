@@ -96,12 +96,6 @@ Requirements:
 
 const CRITERIA_TAGS = ['Remote', '$140k–$200k', 'React / TS', 'Node.js', 'AWS', 'PostgreSQL']
 
-const NAV_ITEMS = [
-  { icon: '⚡', label: "Today's Matches", count: 4, active: true },
-  { icon: '📋', label: 'Applications', count: null, active: false },
-  { icon: '⚙️', label: 'Criteria', count: null, active: false },
-]
-
 function ScoreRing({ score }: { score: number }) {
   const color = score >= 90 ? '#4ade80' : score >= 75 ? '#5c9eff' : '#f59e0b'
   return (
@@ -112,6 +106,8 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
+type ModalType = null | 'applications' | 'criteria'
+
 export default function DemoPage() {
   const [selectedJob, setSelectedJob] = useState(0)
   const [reasoning, setReasoning] = useState('')
@@ -119,6 +115,7 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(false)
   const [actionTaken, setActionTaken] = useState<Record<number, 'approved' | 'skipped'>>({})
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list')
+  const [activeModal, setActiveModal] = useState<ModalType>(null)
 
   async function generateContent(jobId: number) {
     const job = JOBS[jobId]
@@ -164,6 +161,16 @@ export default function DemoPage() {
 
   const job = JOBS[selectedJob]
 
+  const approvedJobs = JOBS.filter(j => actionTaken[j.id] === 'approved')
+  const skippedJobs = JOBS.filter(j => actionTaken[j.id] === 'skipped')
+  const pendingJobs = JOBS.filter(j => !actionTaken[j.id])
+
+  const navItems = [
+    { icon: '⚡', label: "Today's Matches", count: pendingJobs.length, active: true, modal: null as ModalType },
+    { icon: '📋', label: 'Applications', count: approvedJobs.length || null, active: false, modal: 'applications' as ModalType },
+    { icon: '⚙️', label: 'Criteria', count: null, active: false, modal: 'criteria' as ModalType },
+  ]
+
   const jobListPanel = (
     <div className={styles.jobList}>
       {/* Persona */}
@@ -184,22 +191,27 @@ export default function DemoPage() {
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Applied</span>
-          <span className={styles.statValue}>0 roles</span>
+          <span className={styles.statValue}>{approvedJobs.length} roles</span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Pending</span>
-          <span className={styles.statValue}>4 matches</span>
+          <span className={styles.statValue}>{pendingJobs.length} matches</span>
         </div>
       </div>
 
       {/* Nav */}
       <div className={styles.navSection}>
         <div className={styles.navLabel}>Navigation</div>
-        {NAV_ITEMS.map(item => (
-          <div key={item.label} className={`${styles.navItem} ${item.active ? styles.navItemActive : ''}`}>
+        {navItems.map(item => (
+          <div
+            key={item.label}
+            className={`${styles.navItem} ${item.active ? styles.navItemActive : ''} ${item.modal ? styles.navItemClickable : ''}`}
+            onClick={() => item.modal && setActiveModal(item.modal)}
+          >
             <span className={styles.navIcon}>{item.icon}</span>
             <span className={styles.navItemLabel}>{item.label}</span>
-            {item.count && <span className={styles.navCount}>{item.count}</span>}
+            {item.count != null && item.count > 0 && <span className={styles.navCount}>{item.count}</span>}
+            {item.modal && <span className={styles.navArrow}>›</span>}
           </div>
         ))}
       </div>
@@ -215,7 +227,7 @@ export default function DemoPage() {
       </div>
 
       {/* Match count */}
-      <div className={styles.matchCount}>4 matches found</div>
+      <div className={styles.matchCount}>{pendingJobs.length} matches found</div>
 
       {/* Job cards */}
       {JOBS.map(j => (
@@ -232,16 +244,18 @@ export default function DemoPage() {
             </div>
             <ScoreRing score={j.score} />
           </div>
-          <div className={styles.jobCardTags}>
-            {j.tags.map(tag => (
-              <span key={tag} className={styles.tag}>{tag}</span>
-            ))}
-          </div>
-          {actionTaken[j.id] && (
-            <div className={`${styles.actionedBadge} ${actionTaken[j.id] === 'approved' ? styles.actionedApproved : styles.actionedSkipped}`}>
-              {actionTaken[j.id] === 'approved' ? '✓ Approved' : '✗ Skipped'}
+          <div className={styles.jobCardBottom}>
+            <div className={styles.jobCardTags}>
+              {j.tags.map(tag => (
+                <span key={tag} className={styles.tag}>{tag}</span>
+              ))}
             </div>
-          )}
+            {actionTaken[j.id] && (
+              <div className={`${styles.actionedBadge} ${actionTaken[j.id] === 'approved' ? styles.actionedApproved : styles.actionedSkipped}`}>
+                {actionTaken[j.id] === 'approved' ? '✓ Approved' : '✗ Skipped'}
+              </div>
+            )}
+          </div>
         </div>
       ))}
     </div>
@@ -313,6 +327,117 @@ export default function DemoPage() {
     </div>
   )
 
+  // Applications modal content
+  const applicationsModal = (
+    <div className={styles.modalOverlay} onClick={() => setActiveModal(null)}>
+      <div className={styles.modalPanel} onClick={e => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <div className={styles.modalTitle}>
+            <span>📋</span> Applications
+          </div>
+          <button className={styles.modalClose} onClick={() => setActiveModal(null)}>✕</button>
+        </div>
+        <div className={styles.modalBody}>
+          {approvedJobs.length === 0 && skippedJobs.length === 0 ? (
+            <div className={styles.modalEmpty}>
+              <div className={styles.modalEmptyIcon}>📭</div>
+              <div className={styles.modalEmptyText}>No applications yet</div>
+              <div className={styles.modalEmptySubtext}>Approve a job from the list to queue it for submission.</div>
+            </div>
+          ) : (
+            <>
+              {approvedJobs.length > 0 && (
+                <div className={styles.modalSection}>
+                  <div className={styles.modalSectionLabel}>Queued for Submission ({approvedJobs.length})</div>
+                  {approvedJobs.map(j => (
+                    <div key={j.id} className={styles.modalJobRow}>
+                      <div className={styles.modalJobInfo}>
+                        <div className={styles.modalJobTitle}>{j.title}</div>
+                        <div className={styles.modalJobCompany}>{j.company} · {j.location}</div>
+                      </div>
+                      <div className={styles.modalJobBadge} style={{ color: '#4ade80', background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)' }}>
+                        ✓ Approved
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {skippedJobs.length > 0 && (
+                <div className={styles.modalSection}>
+                  <div className={styles.modalSectionLabel}>Skipped ({skippedJobs.length})</div>
+                  {skippedJobs.map(j => (
+                    <div key={j.id} className={styles.modalJobRow}>
+                      <div className={styles.modalJobInfo}>
+                        <div className={styles.modalJobTitle}>{j.title}</div>
+                        <div className={styles.modalJobCompany}>{j.company} · {j.location}</div>
+                      </div>
+                      <div className={styles.modalJobBadge} style={{ color: '#f87171', background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)' }}>
+                        ✗ Skipped
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+
+  // Criteria modal content
+  const criteriaModal = (
+    <div className={styles.modalOverlay} onClick={() => setActiveModal(null)}>
+      <div className={styles.modalPanel} onClick={e => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <div className={styles.modalTitle}>
+            <span>⚙️</span> Job Criteria
+          </div>
+          <button className={styles.modalClose} onClick={() => setActiveModal(null)}>✕</button>
+        </div>
+        <div className={styles.modalBody}>
+          <div className={styles.modalSection}>
+            <div className={styles.modalSectionLabel}>Active Filters</div>
+            <div className={styles.modalCriteriaGrid}>
+              {CRITERIA_TAGS.map(tag => (
+                <div key={tag} className={styles.modalCriteriaItem}>
+                  <span className={styles.modalCriteriaCheck}>✓</span>
+                  <span>{tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={styles.modalSection}>
+            <div className={styles.modalSectionLabel}>How It Works</div>
+            <p className={styles.modalText}>
+              Applymatic uses your criteria to score and rank new job listings daily. Jobs that match your filters rise to the top — ones that don't are quietly filtered out.
+            </p>
+            <p className={styles.modalText}>
+              In the full product, you can edit these preferences anytime and Applymatic will re-rank your queue automatically.
+            </p>
+          </div>
+          <div className={styles.modalSection}>
+            <div className={styles.modalSectionLabel}>Match Scoring</div>
+            <div className={styles.modalScoreLegend}>
+              <div className={styles.modalScoreRow}>
+                <div className={styles.modalScoreDot} style={{ background: '#4ade80' }} />
+                <span>90–100 — Excellent match</span>
+              </div>
+              <div className={styles.modalScoreRow}>
+                <div className={styles.modalScoreDot} style={{ background: '#5c9eff' }} />
+                <span>75–89 — Strong match</span>
+              </div>
+              <div className={styles.modalScoreRow}>
+                <div className={styles.modalScoreDot} style={{ background: '#f59e0b' }} />
+                <span>Below 75 — Partial match</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
@@ -330,6 +455,10 @@ export default function DemoPage() {
       <div className={styles.mobileLayout}>
         {mobileView === 'list' ? jobListPanel : detailPanel}
       </div>
+
+      {/* Modals */}
+      {activeModal === 'applications' && applicationsModal}
+      {activeModal === 'criteria' && criteriaModal}
     </div>
   )
 }
