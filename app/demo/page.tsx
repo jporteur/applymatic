@@ -441,7 +441,10 @@ export default function DemoPage() {
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
-        <div className={styles.logo}>Applymatic</div>
+        <div className={styles.topBarLeft}>
+          <a href="/" className={styles.backToSite}>← applymatic</a>
+          <div className={styles.logo}>Demo</div>
+        </div>
         <div className={styles.demoTag}>Live Demo</div>
       </div>
 

@@ -4,7 +4,7 @@
   flex-direction: column;
 }
 
-/* ── NAV ─────────────────────────────────────────────── */
+/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav {
   display: flex;
   align-items: center;
@@ -50,7 +50,24 @@
 
 .navLinks a:hover { color: var(--text); }
 
-/* ── HERO ─────────────────────────────────────────────── */
+.navDemoLink {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--accent) !important;
+  background: rgba(92, 158, 255, 0.1);
+  border: 1px solid rgba(92, 158, 255, 0.25);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+
+.navDemoLink:hover {
+  background: rgba(92, 158, 255, 0.18) !important;
+  border-color: rgba(92, 158, 255, 0.45) !important;
+  color: var(--accent) !important;
+}
+
+/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero {
   display: flex;
   flex-direction: column;
@@ -126,6 +143,25 @@
 .desktopBreak { display: none; }
 @media (min-width: 640px) { .desktopBreak { display: block; } }
 
+.heroActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.demoBtn {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.demoBtn:hover {
+  color: var(--text);
+}
+
 .socialProof {
   font-size: 13px;
   color: var(--text-3);
@@ -171,7 +207,7 @@
   flex-shrink: 0;
 }
 
-/* ── SECTIONS ─────────────────────────────────────────── */
+/* â”€â”€ SECTIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section {
   padding: 96px 24px;
   max-width: 960px;
@@ -197,7 +233,7 @@
   margin-bottom: 48px;
 }
 
-/* ── BEFORE / AFTER ───────────────────────────────────── */
+/* â”€â”€ BEFORE / AFTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .beforeAfter {
   display: grid;
   grid-template-columns: 1fr 40px 1fr;
@@ -270,7 +306,7 @@
   border-radius: 2px;
 }
 
-/* ── STEPS ────────────────────────────────────────────── */
+/* â”€â”€ STEPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -310,7 +346,7 @@
   line-height: 1.6;
 }
 
-/* ── FEATURES ─────────────────────────────────────────── */
+/* â”€â”€ FEATURES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .featuresGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -354,7 +390,7 @@
   line-height: 1.5;
 }
 
-/* ── PRICING ──────────────────────────────────────────── */
+/* â”€â”€ PRICING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -427,7 +463,7 @@
   text-align: center;
 }
 
-/* ── BOTTOM CTA ───────────────────────────────────────── */
+/* â”€â”€ BOTTOM CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ctaSection {
   padding: 96px 24px;
   display: flex;
@@ -459,7 +495,7 @@
   margin-bottom: 36px;
 }
 
-/* ── FOOTER ───────────────────────────────────────────── */
+/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .footer {
   padding: 32px 40px;
   border-top: 1px solid var(--border);
@@ -489,7 +525,7 @@
 
 .footerNote a:hover { color: var(--accent); }
 
-/* ── RESPONSIVE ───────────────────────────────────────── */
+/* â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 640px) {
   .nav { padding: 16px 20px; }
   .navLinks { display: none; }

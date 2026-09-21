@@ -68,6 +68,7 @@ export default async function Home() {
         <div className={styles.navLinks}>
           <a href="#how-it-works">How it works</a>
           <a href="#pricing">Pricing</a>
+          <a href="/demo" className={styles.navDemoLink}>Try the demo →</a>
         </div>
       </nav>
 
@@ -93,8 +94,9 @@ export default async function Home() {
           experience resulting in more high quality role matches.
         </p>
 
-        <div className="animate-fade-up delay-4">
+        <div className={`${styles.heroActions} animate-fade-up delay-4`}>
           <WaitlistForm />
+          <a href="/demo" className={styles.demoBtn}>See it in action →</a>
         </div>
 
         <p className={`${styles.socialProof} animate-fade-up delay-5`}>
