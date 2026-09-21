@@ -1,4 +1,4 @@
-/* ─── Page Shell ─── */
+/* â”€â”€â”€ Page Shell â”€â”€â”€ */
 .page {
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
   border-radius: 20px;
 }
 
-/* ─── Layouts ─── */
+/* â”€â”€â”€ Layouts â”€â”€â”€ */
 
 /* Desktop layout: always shown, two columns */
 .layout {
@@ -64,7 +64,7 @@
   }
 }
 
-/* ─── Job List Panel ─── */
+/* â”€â”€â”€ Job List Panel â”€â”€â”€ */
 .jobList {
   width: 340px;
   flex-shrink: 0;
@@ -85,7 +85,7 @@
   }
 }
 
-/* ─── Persona Strip ─── */
+/* â”€â”€â”€ Persona Strip â”€â”€â”€ */
 .persona {
   display: flex;
   align-items: center;
@@ -150,7 +150,7 @@
   letter-spacing: 0.5px;
 }
 
-/* ─── Job Cards ─── */
+/* â”€â”€â”€ Job Cards â”€â”€â”€ */
 .jobCard {
   padding: 14px;
   background: #161616;
@@ -207,10 +207,18 @@
   color: #666;
 }
 
+.jobCardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .jobCardTags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  flex: 1;
 }
 
 .tag {
@@ -223,13 +231,12 @@
 }
 
 .actionedBadge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: 20px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .actionedApproved {
@@ -244,7 +251,7 @@
   border: 1px solid rgba(248, 113, 113, 0.25);
 }
 
-/* ─── Score Ring ─── */
+/* â”€â”€â”€ Score Ring â”€â”€â”€ */
 .scoreRing {
   display: flex;
   flex-direction: column;
@@ -271,7 +278,7 @@
   letter-spacing: 0.5px;
 }
 
-/* ─── Detail Panel ─── */
+/* â”€â”€â”€ Detail Panel â”€â”€â”€ */
 .detailPanel {
   flex: 1;
   display: flex;
@@ -374,7 +381,7 @@
   }
 }
 
-/* ─── Sections ─── */
+/* â”€â”€â”€ Sections â”€â”€â”€ */
 .section {
   display: flex;
   flex-direction: column;
@@ -405,7 +412,7 @@
   margin: 0;
 }
 
-/* ─── Letter Box ─── */
+/* â”€â”€â”€ Letter Box â”€â”€â”€ */
 .letterBox {
   background: #161616;
   border: 1px solid #2a2a2a;
@@ -434,7 +441,7 @@
   }
 }
 
-/* ─── Loading ─── */
+/* â”€â”€â”€ Loading â”€â”€â”€ */
 .loadingPulse {
   display: flex;
   flex-direction: column;
@@ -455,7 +462,7 @@
   100% { background-position: -200% 0; }
 }
 
-/* ─── Action Bar ─── */
+/* â”€â”€â”€ Action Bar â”€â”€â”€ */
 .actionBar {
   display: flex;
   gap: 12px;
@@ -528,7 +535,7 @@
   background: rgba(248, 113, 113, 0.1);
   border: 1px solid rgba(248, 113, 113, 0.25);
   color: #f87171;
-}/* ─── Stats Row ─── */
+}/* â”€â”€â”€ Stats Row â”€â”€â”€ */
 .statsRow {
   display: flex;
   gap: 8px;
@@ -559,7 +566,7 @@
   font-weight: 500;
 }
 
-/* ─── Nav Section ─── */
+/* â”€â”€â”€ Nav Section â”€â”€â”€ */
 .navSection {
   display: flex;
   flex-direction: column;
@@ -616,7 +623,7 @@
   border-radius: 20px;
 }
 
-/* ─── Criteria Section ─── */
+/* â”€â”€â”€ Criteria Section â”€â”€â”€ */
 .criteriaSection {
   display: flex;
   flex-direction: column;
@@ -636,4 +643,228 @@
   border: 1px solid #2e2e2e;
   padding: 4px 10px;
   border-radius: 20px;
+}
+/* â”€â”€â”€ Nav arrow & clickable items â”€â”€â”€ */
+.navItemClickable {
+  cursor: pointer;
+}
+
+.navArrow {
+  font-size: 16px;
+  color: #444;
+  margin-left: auto;
+}
+
+/* â”€â”€â”€ Modal Overlay â”€â”€â”€ */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modalPanel {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .modalPanel {
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+  }
+  .modalOverlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #222;
+  flex-shrink: 0;
+}
+
+.modalTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalClose {
+  background: none;
+  border: 1px solid #333;
+  color: #888;
+  font-size: 13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalClose:hover {
+  border-color: #555;
+  color: #fff;
+}
+
+.modalBody {
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalSectionLabel {
+  font-size: 10px;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.modalJobRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #1a1a1a;
+  border: 1px solid #242424;
+  border-radius: 8px;
+}
+
+.modalJobInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalJobTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.modalJobCompany {
+  font-size: 12px;
+  color: #666;
+}
+
+.modalJobBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.modalEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.modalEmptyIcon {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+.modalEmptyText {
+  font-size: 15px;
+  font-weight: 600;
+  color: #888;
+}
+
+.modalEmptySubtext {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+  max-width: 240px;
+}
+
+.modalCriteriaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalCriteriaItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #1a1a1a;
+  border: 1px solid #242424;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.modalCriteriaCheck {
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.modalText {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.modalScoreLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalScoreRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.modalScoreDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
